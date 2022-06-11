@@ -1,14 +1,20 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from "react-native-paper";
+import { HeaderBack } from '../components/HeaderBack';
+import { Header } from '../components/Header';
 
 export function Details() {
     return (
-        <View  style={styles.container}>
-            <Text style={styles.text}>
-                {'Details'}
-            </Text>
-        </View>
+        <>
+            <Header />
+            <HeaderBack />
+            <View style={styles.container}>
+                <Text style={styles.text}>
+                    {'Details'}
+                </Text>
+            </View>
+        </>
 
     );
 };

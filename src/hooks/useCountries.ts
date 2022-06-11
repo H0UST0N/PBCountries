@@ -29,6 +29,7 @@ export default function useCountries() {
             default:
                 response = await All.get();
         }
+        console.log(response);
         setList(response);
         setDataIsLoaded(true);
     }
