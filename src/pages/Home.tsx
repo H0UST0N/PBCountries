@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect } from 'react';
+import { Alert, StyleSheet, View } from 'react-native';
 import { Text } from "react-native-paper";
+import All from '../services/All';
 
 export function Home() {
+    
     return (
         <View  style={styles.container}>
             <Text style={styles.text}>

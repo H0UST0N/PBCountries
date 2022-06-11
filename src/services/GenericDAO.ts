@@ -20,7 +20,6 @@ const get = async (
       stringRequest,
       { headers }
     );
-
     return response.data;
 
   } catch (e) {
