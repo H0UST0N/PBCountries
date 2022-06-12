@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="PBCountry" src="https://user-images.githubusercontent.com/898246/173209547-60317051-217e-4f56-89b7-71655b119b88.jpg" width="100%">
+</p>
+
 <p align="center" style="text-align: center;">
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -15,7 +19,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## 💻 Projeto
 
-Aplicativo PBCountry.
+Aplicativo PBCountry desenvolvido a partir dos dados da Api https://restcountries.com/.
 
 No aplicativo você pode:
 - Listar todos os países.
