@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import * as React from 'react';
-import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Header } from '../components/Header';
 import { SearchBar } from '../components/SearchBar';
 import { Card } from '../components/Card';
@@ -14,6 +14,7 @@ import { Dropdown } from '../components/Dropdown';
 type homeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export function Home() {
+    
     const navigation = useNavigation<homeScreenProp>();
 
     const { darkMode, list, dataIsLoaded, fetchData } = useContext(CountriesContext);

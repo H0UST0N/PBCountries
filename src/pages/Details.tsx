@@ -9,12 +9,11 @@ import { CountriesContext } from '../contexts/CountriesContext';
 import { Button } from '../components/Button';
 import Alpha from '../services/Alpha';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../routes/stack.routes';
-
 
 export function Details(country: any) {
+
     const navigation = useNavigation();
+
     const { flags, name, nativeName, population, region, subregion, capital, topLevelDomain, currencies, languages, borders } = country.route.params;
 
     const { darkMode } = useContext(CountriesContext);
