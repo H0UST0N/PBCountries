@@ -8,8 +8,13 @@ import { useContext, useEffect, useState } from 'react';
 import { CountriesContext } from '../contexts/CountriesContext';
 import { Button } from '../components/Button';
 import Alpha from '../services/Alpha';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../routes/stack.routes';
+
 
 export function Details(country: any) {
+    const navigation = useNavigation();
     const { flags, name, nativeName, population, region, subregion, capital, topLevelDomain, currencies, languages, borders } = country.route.params;
 
     const { darkMode } = useContext(CountriesContext);
@@ -60,7 +65,7 @@ export function Details(country: any) {
         },
         borders: {
             flexDirection: "row",
-            flexWrap:"wrap"
+            flexWrap: "wrap"
         },
     });
 
@@ -88,7 +93,21 @@ export function Details(country: any) {
                             <View style={styles.bordersContent}>
                                 <Paragraph style={styles.paragraph}><Text style={styles.titleParagraph}>Border Countries:</Text></Paragraph>
                                 <View style={styles.borders}>
-                                    {borderDetails?.map((border) => <Button key={border.numericCode} style={{ marginHorizontal: 3, marginVertical: 2 }} uppercase={false}>{border?.name}</Button>)}
+                                    {borderDetails?.map((border) => <Button
+                                        key={border.numericCode}
+                                        style={{ marginHorizontal: 3, marginVertical: 2 }}
+                                        uppercase={false}
+                                        onPress={async () => {
+                                            if (border && border.borders) {
+                                                const response = await Alpha.get([{ name: 'codes', value: (border.borders.map((border: string) => border + ",")) }])
+                                                setBorderDetails(response);
+                                            }
+                                            navigation.navigate('Details', border);
+                                        }}
+                                    >
+                                        {border?.name}
+                                    </Button>)
+                                    }
                                 </View>
                             </View>
                         </View>
