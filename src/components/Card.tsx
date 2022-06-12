@@ -1,4 +1,4 @@
-import React, { ComponentProps, ComponentPropsWithRef, ReactNode, useContext } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Card as CardPaper, Paragraph, Text, Title } from 'react-native-paper';
 import { CountriesContext } from '../contexts/CountriesContext';
@@ -9,7 +9,7 @@ interface CardProps {
     population: number;
     region: string;
     capital:string;
-    onPress: ()=> void;
+    onPress?: ()=> void;
 };
 
 export function Card({flag, name, population, region, capital, onPress}: CardProps) {
@@ -46,7 +46,7 @@ export function Card({flag, name, population, region, capital, onPress}: CardPro
             <CardPaper.Cover source={{ uri: flag }} />
             <CardPaper.Content style={styles.content}>
                 <Title style={styles.title}>{name}</Title>
-                <Paragraph style={styles.paragraph}><Text style={styles.titleParagraph}>Population:</Text> {population}</Paragraph>
+                <Paragraph style={styles.paragraph}><Text style={styles.titleParagraph}>Population:</Text> {population.toLocaleString('pt-BR', { style: 'decimal' })}</Paragraph>
                 <Paragraph style={styles.paragraph}><Text style={styles.titleParagraph}>Region:</Text> {region}</Paragraph>
                 <Paragraph style={styles.paragraph}><Text style={styles.titleParagraph}>Capital:</Text> {capital}</Paragraph>
             </CardPaper.Content>

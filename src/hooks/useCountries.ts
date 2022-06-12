@@ -9,11 +9,9 @@ type FilterType = "All" | "Name" | "Continent";
 export default function useCountries() {
     const [darkMode, setDarkMode] = useState<boolean>(false);
     const [dataIsLoaded, setDataIsLoaded] = useState<boolean>(false);
-    const [filterType, setFilterType] = useState<FilterType>('All');
-    const [filter, setFilter] = useState<string|undefined>();
     const [list, setList] = useState<IGetCountry[]>([]);
 
-    const fetchData = async (filter?: string) => {
+    const fetchData = async (filterType:FilterType,filter?: string) => {
         setDataIsLoaded(false);
         let response: IGetCountry[];
         switch (filterType) {
@@ -29,7 +27,6 @@ export default function useCountries() {
             default:
                 response = await All.get();
         }
-        console.log(response);
         setList(response);
         setDataIsLoaded(true);
     }
@@ -37,28 +34,12 @@ export default function useCountries() {
     useEffect(() => {
         (async () => {
             try {
-                await fetchData();
+                await fetchData("All");
             } catch (e: any) {
                 Alert.alert(e.message);
             }
         })()
     }, []);
 
-    const onSearch = useCallback(async () => {
-        try {
-            await fetchData(filter);
-        } catch (e: any) {
-            Alert.alert(e.message);
-        }
-    }, [filter]);
-
-    const onRefresh = useCallback(async () => {
-        try {
-            await fetchData();
-        } catch (e: any) {
-            Alert.alert(e.message);
-        }
-    }, []);
-
-    return { darkMode, setDarkMode, dataIsLoaded, setDataIsLoaded, list, setList, filterType, setFilterType, filter, setFilter, onSearch, onRefresh }
+    return { darkMode, setDarkMode, dataIsLoaded, setDataIsLoaded, list, setList, fetchData }
 }

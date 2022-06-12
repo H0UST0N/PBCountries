@@ -1,6 +1,5 @@
-import React, { ComponentProps, ComponentPropsWithRef, ReactNode, useContext } from 'react';
-import { StyleSheet, Text } from 'react-native';
-import { Appbar, Button as ButtonPaper } from "react-native-paper";
+import React, { ComponentProps, useContext } from 'react';
+import { Button as ButtonPaper } from "react-native-paper";
 import { CountriesContext } from '../contexts/CountriesContext';
 
 type ButtonProps = ComponentProps<typeof ButtonPaper>;

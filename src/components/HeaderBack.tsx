@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button } from './Button';
 
 interface HeaderBackProps {
@@ -13,8 +13,8 @@ export function HeaderBack({ title }: HeaderBackProps) {
 
     const styles = StyleSheet.create({
         header: {
-            paddingVertical: 15,
-            paddingHorizontal: 10,
+            paddingVertical: 30,
+            paddingHorizontal: 20,
             flexDirection: "row",
             justifyContent: "flex-start",
         }

@@ -1,8 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import * as React from 'react';
-import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Button } from '../components/Button';
+import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { Header } from '../components/Header';
 import { SearchBar } from '../components/SearchBar';
 import { Card } from '../components/Card';
@@ -10,17 +9,53 @@ import { RootStackParamList } from '../routes/stack.routes';
 import { useContext, useState } from 'react';
 import { CountriesContext } from '../contexts/CountriesContext';
 import { ActivityIndicator } from 'react-native-paper';
+import { Dropdown } from '../components/Dropdown';
 
 type homeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export function Home() {
     const navigation = useNavigation<homeScreenProp>();
 
-    const { darkMode, list, dataIsLoaded, onRefresh } = useContext(CountriesContext);
+    const { darkMode, list, dataIsLoaded, fetchData } = useContext(CountriesContext);
+
+    const styles = StyleSheet.create({
+        search: {
+            paddingVertical: 25,
+            paddingHorizontal: 15
+        },
+        dropdown: {
+            paddingHorizontal: 15,
+            paddingBottom: 15
+        },
+        cards: {
+            paddingHorizontal: 50,
+            paddingVertical: 15
+        },
+        container: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center"
+        },
+        horizontal: {
+            flexDirection: "row",
+            justifyContent: "space-around",
+            padding: 10
+        },
+        text: {
+            fontSize: 30
+        },
+    });
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [refreshing, setRefreshing] = useState(false);
-    const onChangeSearch = (query: string) => setSearchQuery(query);
+
+    const onChangeSearch = async (query: string) => {
+        setSearchQuery(query);
+        if (query.length > 1) {
+            await fetchData("Name", query);
+        } else {
+            await fetchData("All");
+        }
+    };
 
     return (
         <>
@@ -32,22 +67,37 @@ export function Home() {
                 />
             </View>
 
-            {dataIsLoaded && !refreshing &&
-                <SafeAreaView style={styles.container}>
-                    <ScrollView
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={onRefresh}
-                            />
+            <View style={styles.dropdown}>
+                <Dropdown
+                    description='Filter by Region'
+                    items={[
+                        { label: 'Africa', value: 'africa', key: 'africa' },
+                        { label: 'Americas', value: 'americas', key: 'africa' },
+                        { label: 'Asia', value: 'asia', key: 'africa' },
+                        { label: 'Europe', value: 'europe', key: 'africa' },
+                        { label: 'Oceania', value: 'oceania', key: 'africa' },
+                    ]}
+                    onValueChange={
+                        async (value: string) => {
+                            if(value) {
+                                fetchData("Continent", value);
+                            } else {
+                                fetchData("All", value);
+                            }
                         }
-                    >
-                        {list.length > 0
+                    }
+                />
+            </View>
+
+            {dataIsLoaded &&
+                <SafeAreaView style={styles.container}>
+                    <ScrollView>
+                        {list?.length > 0
                             && list.map(
-                                (item) => {
+                                (item: any) => {
                                     return (
                                         <View key={item.numericCode} style={styles.cards}>
-                                            <Card flag={item.flags.png} name={item.name} population={item.population} region={item.region} capital={item.capital} onPress={() => { navigation.navigate('Details') }} />
+                                            <Card flag={item.flags.png} name={item.name} population={item.population} region={item.region} capital={item.capital} onPress={() => { navigation.navigate('Details', item) }} />
                                         </View>
                                     )
                                 }
@@ -57,7 +107,7 @@ export function Home() {
                 </SafeAreaView>
             }
 
-            {!dataIsLoaded && !refreshing
+            {!dataIsLoaded
                 && <View style={[styles.container, styles.horizontal]}>
                     <ActivityIndicator animating={true} size={'large'} color={darkMode ? '#FFFFFF' : '#2C3743'} />
                 </View>
@@ -68,26 +118,3 @@ export function Home() {
     );
 };
 
-const styles = StyleSheet.create({
-    search: {
-        paddingVertical: 25,
-        paddingHorizontal: 15
-    },
-    cards: {
-        paddingHorizontal: 50,
-        paddingVertical: 15
-    },
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    horizontal: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        padding: 10
-    },
-    text: {
-        fontSize: 30
-    },
-});
